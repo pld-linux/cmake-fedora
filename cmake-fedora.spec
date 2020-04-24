@@ -2,14 +2,16 @@
 Summary:	CMake modules and scripts that simplify and automate the release process for software package
 Summary(pl.UTF-8):	Moduły CMake'a i skrypty ułatwiające i automatyzujące proces wydawania oprogramowania
 Name:		cmake-fedora
-Version:	2.6.0
+Version:	2.9.3
 Release:	1
 License:	BSD
 Group:		Development/Tools
-Source0:	https://fedorahosted.org/releases/c/m/cmake-fedora/%{name}-%{version}-Source.tar.gz
-# Source0-md5:	4f487ed5e97d46e20d6356d5cc7a7fa5
-URL:		https://fedorahosted.org/cmake-fedora/
+#Source0Download: https://pagure.io/cmake-fedora/releases
+Source0:	https://pagure.io/cmake-fedora/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	3379da8b9c9464a8e0dc3ac2671e7e03
+URL:		https://pagure.io/cmake-fedora/
 BuildRequires:	cmake >= 2.6.2
+BuildRequires:	sed >= 4.0
 Requires:	%{name}-modules = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -39,7 +41,10 @@ automatyzujących proces wydawania pakietów oprogramowania, w
 szczególności dla dystrybucji Fedora i EPEL.
 
 %prep
-%setup -q -n %{name}-%{version}-Source
+%setup -q
+
+# fails and unnecessary
+%{__sed} -i -e '/^PACK_SOURCE_ARCHIVE/,/ *)$/ d' CMakeLists.txt
 
 %build
 %cmake \
@@ -60,12 +65,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS COPYING ChangeLog README
+%doc AUTHORS COPYING ChangeLog README.md RELEASE-NOTES.txt TODO.md
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/cmake-fedora.conf
 %attr(755,root,root) %{_bindir}/cmake-fedora-fedpkg
 %attr(755,root,root) %{_bindir}/cmake-fedora-koji
 %attr(755,root,root) %{_bindir}/cmake-fedora-newprj
 %attr(755,root,root) %{_bindir}/cmake-fedora-pkgdb
+%attr(755,root,root) %{_bindir}/cmake-fedora-reset
 %attr(755,root,root) %{_bindir}/cmake-fedora-zanata
 %attr(755,root,root) %{_bindir}/koji-build-scratch
 %{_datadir}/cmake/Templates/fedora
