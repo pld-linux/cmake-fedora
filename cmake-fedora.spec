@@ -3,7 +3,7 @@ Summary:	CMake modules and scripts that simplify and automate the release proces
 Summary(pl.UTF-8):	Moduły CMake'a i skrypty ułatwiające i automatyzujące proces wydawania oprogramowania
 Name:		cmake-fedora
 Version:	2.9.3
-Release:	2
+Release:	3
 License:	BSD
 Group:		Development/Tools
 #Source0Download: https://pagure.io/cmake-fedora/releases
@@ -13,6 +13,7 @@ URL:		https://pagure.io/cmake-fedora/
 BuildRequires:	cmake >= 2.6.2
 BuildRequires:	sed >= 4.0
 Requires:	%{name}-modules = %{version}-%{release}
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
